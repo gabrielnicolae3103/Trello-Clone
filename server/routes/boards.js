@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const Board = require('../models/Board');
 
+// Get all boards
 router.get('/', async (req, res) => {
     try {
-        console.log('getting all boards');
         const boards = await Board.find();
         res.json(boards);
     } catch (error) {
@@ -12,6 +12,17 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Find a board by id
+router.get('/:id', async (req, res) => {
+    try {
+        const board = await Board.findById(req.params.id);
+        res.json(board);
+    } catch (error) {
+        res.status(404).json({message: error});
+    }
+});
+
+// Post a new board
 router.post('/', async (req, res) => {
     const board = new Board({
         name: req.body.name,
@@ -22,6 +33,30 @@ router.post('/', async (req, res) => {
         res.json(posted);
     } catch(err) {
         res.status(500).json({message: err})
+    }
+});
+
+// Delete a board
+router.delete('/:id', async (req, res) => {
+    try {
+        const board = await Board.deleteOne({_id : req.params.id});
+        res.json('board deleted succesfully');
+    } catch (error) {
+        res.status(404).json({message: error});
+    }
+});
+
+// Update a board
+router.put('/:id', async (req, res) => {
+    try {
+        const board = await Board.findByIdAndUpdate(
+            {_id: req.params.id},
+            { $set: {
+                name: req.body.name,
+                background: req.body.background}});
+        res.json(board);
+    } catch (error) {
+        res.status(404).json({message: error});
     }
 });
 
