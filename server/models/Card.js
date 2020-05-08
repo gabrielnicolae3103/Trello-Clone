@@ -9,7 +9,7 @@ const CardSchema = mongoose.Schema( {
         type: String,
     },
     listId: {
-        type : Number,
+        type : String,
         required : true
     },
 });

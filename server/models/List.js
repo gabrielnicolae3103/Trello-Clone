@@ -6,7 +6,7 @@ const ListSchema = mongoose.Schema( {
         required : true
     },
     boardId: {
-        type : Number,
+        type : String,
         required : true
     }
 });

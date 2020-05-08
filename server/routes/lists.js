@@ -1,63 +1,62 @@
 const express = require('express');
 const router = express.Router();
-const Card = require('../models/Card');
+const List = require('../models/List');
 
-// Get all cards
+// Get all lists
 router.get('/', async (req, res) => {
     try {
-        const cards = await Card.find();
-        res.json(cards);
+        const lists = await List.find();
+        res.json(lists);
     } catch (error) {
         res.status(500).json({message: error});
     }
 });
 
-// Find a card by id
+// Find a list by id
 router.get('/:id', async (req, res) => {
     try {
-        const card = await Card.findById(req.params.id);
-        res.json(card);
+        const list = await List.findById(req.params.id);
+        res.json(list);
     } catch (error) {
         res.status(404).json({message: error});
     }
 });
 
-// Post a new card
+// Post a new list
 router.post('/', async (req, res) => {
-    const card = new Card({
-        title: req.body.title,
-        listId: req.body.listId,
-        description: req.body.description
+    const list = new List({
+        name: req.body.name,
+        boardId: req.body.boardId
     });
     try {
-        const posted = await card.save();
+        const posted = await list.save();
         res.json(posted);
     } catch(err) {
         res.status(500).json({message: err})
     }
 });
 
-// Delete a card
+// Delete a list
 router.delete('/:id', async (req, res) => {
     try {
-        const card = await Card.deleteOne({_id : req.params.id});
-        res.json('card deleted succesfully');
+        const list = await List.deleteOne({_id : req.params.id});
+        res.json('list deleted succesfully');
     } catch (error) {
         res.status(404).json({message: error});
     }
 });
 
-// Update a card
+// Update a list
 router.patch('/:id', async (req, res) => {
     try {
-        const cardBeforeUpdate = await Card.findById(req.params.id);
-        const card = await Card.findByIdAndUpdate(
+        const listBeforeUpdate = await List.findById(req.params.id);
+
+        const list = await List.findByIdAndUpdate(
             {_id: req.params.id},
             { $set: {
-                title: req.body.title,
-                description: req.body.description}},
+                name: req.body.name}},
             { new: true });
-        res.json(card);
+        res.json(list);
     } catch (error) {
         res.status(404).json({message: error});
     }
