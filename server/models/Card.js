@@ -14,4 +14,4 @@ const CardSchema = mongoose.Schema( {
     },
 });
 
-module.exports = mongoose.model('Boards', BoardSchema);
+module.exports = mongoose.model('Cards', CardSchema);
