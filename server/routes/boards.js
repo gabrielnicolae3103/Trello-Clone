@@ -47,13 +47,14 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Update a board
-router.put('/:id', async (req, res) => {
+router.patch('/:id', async (req, res) => {
     try {
         const board = await Board.findByIdAndUpdate(
             {_id: req.params.id},
             { $set: {
                 name: req.body.name,
-                background: req.body.background}});
+                background: req.body.background}},
+            { new: true });
         res.json(board);
     } catch (error) {
         res.status(404).json({message: error});
