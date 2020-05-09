@@ -51,11 +51,14 @@ router.delete('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const cardBeforeUpdate = await Card.findById(req.params.id);
+        const $set = {};
+        if(req.body.title)
+            $set.title = req.body.title;
+        if(req.body.description)
+            $set.description = req.body.description;
         const card = await Card.findByIdAndUpdate(
             {_id: req.params.id},
-            { $set: {
-                title: req.body.title,
-                description: req.body.description}},
+            { $set },
             { new: true });
         res.json(card);
     } catch (error) {

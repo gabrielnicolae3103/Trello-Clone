@@ -49,11 +49,14 @@ router.delete('/:id', async (req, res) => {
 // Update a board
 router.patch('/:id', async (req, res) => {
     try {
+        const $set = {};
+        if(req.body.name)
+            $set.name = req.body.name;
+        if(req.body.background)
+            $set.background = req.body.background;
         const board = await Board.findByIdAndUpdate(
             {_id: req.params.id},
-            { $set: {
-                name: req.body.name,
-                background: req.body.background}},
+            { $set },
             { new: true });
         res.json(board);
     } catch (error) {
