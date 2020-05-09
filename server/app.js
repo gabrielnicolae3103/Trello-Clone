@@ -9,6 +9,7 @@ const cors = require('cors');
 const boardRoutes = require('./routes/boards');
 const cardsRoutes = require('./routes/cards');
 const listsRoutes = require('./routes/lists');
+const usersRoutes = require('./routes/user');
 const auth = require('./routes/auth');
 
 require('dotenv/config')
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 app.use('/boards', auth.authenticateToken, boardRoutes);
 app.use('/cards', auth.authenticateToken, cardsRoutes);
 app.use('/lists', auth.authenticateToken, listsRoutes);
+app.use('/users', usersRoutes);
 app.use('/login', auth.router);
 
 
