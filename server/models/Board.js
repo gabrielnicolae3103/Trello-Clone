@@ -7,7 +7,11 @@ const BoardSchema = mongoose.Schema( {
     },
     background: {
         type: String,
-        default: '#33cc33'
+        default: '#33cc33' //TODO: validate color
+    },
+    members: {
+        type: [String],
+        required: true
     }
 });
 

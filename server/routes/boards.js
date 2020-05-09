@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Board = require('../models/Board');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
 
 // Get all boards
 router.get('/', async (req, res) => {
@@ -24,11 +26,18 @@ router.get('/:id', async (req, res) => {
 
 // Post a new board
 router.post('/', async (req, res) => {
-    const board = new Board({
-        name: req.body.name,
-        background: req.body.background
-    });
     try {
+        const authHeader = req.headers['authorization'];
+        const token = authHeader && authHeader.split(' ')[1];
+
+        const currentUser = jwt.decode(token).username;
+        const currentUserId = (await User.findOne({username : currentUser}))._id;
+
+        const board = new Board({
+            name: req.body.name,
+            background: req.body.background,
+            members: currentUserId
+        });
         const posted = await board.save();
         res.json(posted);
     } catch(err) {
@@ -47,16 +56,15 @@ router.delete('/:id', async (req, res) => {
 });
 
 // Update a board
-router.patch('/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
     try {
-        const $set = {};
-        if(req.body.name)
-            $set.name = req.body.name;
-        if(req.body.background)
-            $set.background = req.body.background;
         const board = await Board.findByIdAndUpdate(
             {_id: req.params.id},
-            { $set },
+            { $set: {
+                name: req.body.name,
+                background: req.body.background,
+                members: req.body.members
+            } },
             { new: true });
         res.json(board);
     } catch (error) {

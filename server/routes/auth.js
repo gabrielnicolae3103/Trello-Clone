@@ -21,7 +21,6 @@ function authenticateToken(req, res, next) {
 router.post('/', async (req, res) => {
     const { username, password } = req.body;
     const users = await User.find();
-    console.log(users);
     const user = users.find(u => { return u.username === username && u.password === password });
 
     if (user) {
