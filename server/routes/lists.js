@@ -62,4 +62,14 @@ router.patch('/:id', async (req, res) => {
     }
 });
 
+// Find a list by id
+router.get('/board/:boardId', async (req, res) => {
+    try {
+        const lists = await List.find({boardId: req.params.boardId})
+        res.json(lists);
+    } catch (error) {
+        res.status(404).json({message: error});
+    }
+});
+
 module.exports = router;

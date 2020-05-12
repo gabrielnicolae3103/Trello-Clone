@@ -16,8 +16,8 @@ require('dotenv/config')
 app.use(cors());
 app.use(bodyParser.json());
 app.use('/boards', boardRoutes);
-app.use('/cards', auth.authenticateToken, cardsRoutes);
-app.use('/lists', auth.authenticateToken, listsRoutes);
+app.use('/cards', cardsRoutes);
+app.use('/lists', listsRoutes);
 app.use('/users', usersRoutes);
 app.use('/login', auth.router);
 
