@@ -6,7 +6,6 @@ async function getBoards() {
 }
 
 async function postBoard(data) {
-  // Default options are marked with *
   const response = await fetch(`${API_URL}boards`, {
     method: 'POST',
     mode: 'cors',
@@ -21,9 +20,26 @@ async function postBoard(data) {
   return response.json();
 }
 
+async function addAnotherList(newList) {
+  if (newList.name === '' || newList === null)
+    return;
+  const response = await fetch(`${API_URL}lists`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+      //TODO add auth
+    },
+    body: JSON.stringify(newList)
+  });
+  return response.json();
+}
+
 async function getListsByBoardId(boardId) {
 	console.log(boardId);
 	return await fetch(`${API_URL}lists/board/${boardId}`)
 							.then(response => response.json());
 }
-export default {getBoards, postBoard, getListsByBoardId};
+export default {getBoards, postBoard, getListsByBoardId, addAnotherList};
