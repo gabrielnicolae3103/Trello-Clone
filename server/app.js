@@ -13,9 +13,9 @@ const usersRoutes = require('./routes/user');
 const auth = require('./routes/auth');
 
 require('dotenv/config')
-//app.use(cors);
+app.use(cors());
 app.use(bodyParser.json());
-app.use('/boards', auth.authenticateToken, boardRoutes);
+app.use('/boards', boardRoutes);
 app.use('/cards', auth.authenticateToken, cardsRoutes);
 app.use('/lists', auth.authenticateToken, listsRoutes);
 app.use('/users', usersRoutes);
