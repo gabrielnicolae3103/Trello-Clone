@@ -1,10 +1,9 @@
 <template>
 	<div>
 		<b-button @click="goToBoard(board)" v-for="(board, i) in boards" :key="i" href="#" variant="primary">{{board.name}}</b-button>
-		<b-button @click="getBoards()" variant="primary">Get Boards</b-button>
-		<b-button v-b-modal.modal-1>Create new board</b-button>
+		<b-button v-b-modal.modal-1 @click="showModal = true">Create new board</b-button>
 
-		<b-modal id="modal-1" title="Create new board">
+		<b-modal v-if="showModal" id="modal-1" title="Create new board">
 			<input v-model="newBoard.name" placeholder="Name for the new card!">
 			<b-button @click="createNewBoard()" variant="primary">Create Board</b-button>
 		</b-modal>
@@ -18,14 +17,18 @@ import api from '../api/api';
 export default {
 	name: 'Boards',
 	data: () => ({
-		count : 0,
+		count: 0,
 		boards: [],
 		newBoard: {
 			name : ''
 			//TODO add colour
 			//TODO get current logged user and set it as member
 		},
+		showModal: true,
 	}),
+	created: function() {
+		this.getBoards();
+	},
 	methods: {
 		getBoards: async function() {
 			await api.getBoards().then(data => this.boards = data);
@@ -38,6 +41,9 @@ export default {
 		createNewBoard: async function() {
 			await api.postBoard(this.newBoard)
 					.then(data => console.log(data));
+			this.newBoard = {};
+			this.getBoards();
+			this.showModal = false;
 		}
 	}
 }
