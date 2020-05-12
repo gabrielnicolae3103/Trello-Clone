@@ -22,6 +22,16 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Find all cards by list id
+router.get('/list/:listId', async (req, res) => {
+    try {
+        const card = await Card.find({listId: req.params.listId});
+        res.json(card);
+    } catch (error) {
+        res.status(404).json({message: error});
+    }
+});
+
 // Post a new card
 router.post('/', async (req, res) => {
     const card = new Card({
