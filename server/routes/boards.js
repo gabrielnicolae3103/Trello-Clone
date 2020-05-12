@@ -30,13 +30,13 @@ router.post('/', async (req, res) => {
         const authHeader = req.headers['authorization'];
         const token = authHeader && authHeader.split(' ')[1];
 
-        const currentUser = jwt.decode(token).username;
-        const currentUserId = (await User.findOne({username : currentUser}))._id;
+        //const currentUser = jwt.decode(token).username;
+        //const currentUserId = (await User.findOne({username : currentUser}))._id;
 
         const board = new Board({
             name: req.body.name,
             background: req.body.background,
-            members: currentUserId
+            //members: currentUserId
         });
         const posted = await board.save();
         res.json(posted);

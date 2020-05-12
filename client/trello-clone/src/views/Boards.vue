@@ -1,11 +1,12 @@
 <template>
 	<div>
 		<b-button @click="goToBoard(board)" v-for="(board, i) in boards" :key="i" href="#" variant="primary">{{board.name}}</b-button>
-		<b-button @click="getBoards()" variant="primary">Test</b-button>
-		<b-button v-b-modal.modal-1>Launch demo modal</b-button>
+		<b-button @click="getBoards()" variant="primary">Get Boards</b-button>
+		<b-button v-b-modal.modal-1>Create new board</b-button>
 
-		<b-modal id="modal-1" title="New Card">
-			<p class="my-4">Hello from modal! {{count}}</p>
+		<b-modal id="modal-1" title="Create new board">
+			<input v-model="newBoard.name" placeholder="Name for the new card!">
+			<b-button @click="createNewBoard()" variant="primary">Create Board</b-button>
 		</b-modal>
 	</div>
 </template>
@@ -18,7 +19,12 @@ export default {
 	name: 'Boards',
 	data: () => ({
 		count : 0,
-		boards: []
+		boards: [],
+		newBoard: {
+			name : ''
+			//TODO add colour
+			//TODO get current logged user and set it as member
+		},
 	}),
 	methods: {
 		getBoards: async function() {
@@ -28,6 +34,10 @@ export default {
 		goToBoard: function(board) {
 			console.log(board)
 			this.$router.push(`/b/${board._id}`)
+		},
+		createNewBoard: async function() {
+			await api.postBoard(this.newBoard)
+					.then(data => console.log(data));
 		}
 	}
 }

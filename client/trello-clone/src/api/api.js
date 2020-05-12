@@ -5,4 +5,20 @@ async function getBoards() {
                 .then(response => response.json());
 }
 
-export default {getBoards};
+async function postBoard(data) {
+    // Default options are marked with *
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      mode: 'cors',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json'
+        //TODO add auth
+      },
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+
+export default {getBoards, postBoard};
