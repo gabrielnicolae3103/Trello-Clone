@@ -42,4 +42,10 @@ async function getListsByBoardId(boardId) {
 	return await fetch(`${API_URL}lists/board/${boardId}`)
 							.then(response => response.json());
 }
-export default {getBoards, postBoard, getListsByBoardId, addAnotherList};
+
+async function getCardsByListId(listId) {
+	return await fetch(`${API_URL}cards/list/${listId}`)
+							.then(response => response.json());
+}
+
+export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId};
