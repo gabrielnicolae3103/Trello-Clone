@@ -4,14 +4,14 @@
 		<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
 		
 		<div v-if="newList" class="new-list">
-			<b-button class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
+			<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
 			<b-collapse id="collapse-1" class="mt-2">
 				<b-card>
 					<p class="card-text">LIST</p>
 					<b-form-input v-model="newList.name" placeholder="Enter the list's title"></b-form-input>
 					{{newList.name}}
 					<b-button @click="addAnotherList()" variant="primary">Add List</b-button>
-					<b-button v-b-toggle.collapse-1 variant="primary">X</b-button>
+					<b-button @click="showNewListButton()" v-b-toggle.collapse-1 variant="primary">X</b-button>
 				</b-card>
 			</b-collapse>
 		</div>
@@ -32,6 +32,7 @@ export default {
 			name: '',
 			boardId: 0
 		},
+		showButton: 'inline-block',
 	}),
 	created: async function() {
 				this.boardId = this.$route.params.id;
@@ -49,6 +50,14 @@ export default {
 										.then(data => console.log(data))
 										.then(this.getLists); //refresh lists
 					this.newList.name = '';
+				},
+				showNewListButton: function() {
+					if(this.showButton === 'inline-block')
+						this.showButton = 'none'
+					else
+						this.showButton = 'inline-block'
+					console.log('se apeleaza');
+					return this.showButton;
 				}
 	},
 	components: {
