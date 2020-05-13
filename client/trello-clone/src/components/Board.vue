@@ -12,7 +12,6 @@
 					<b-card class="mt-2">
 						<p class="card-text">LIST</p>
 						<b-form-input v-model="newList.name" placeholder="Enter the list's title"></b-form-input>
-						{{newList.name}}
 						<b-button @click="addAnotherList()" variant="primary">Add List</b-button>
 						<b-button @click="showNewListButton()" v-b-toggle.collapse-1 variant="primary">X</b-button>
 					</b-card>

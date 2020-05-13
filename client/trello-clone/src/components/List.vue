@@ -1,12 +1,25 @@
 <template>
     <div>
-		<b-card class="list" :title="list.name" sub-title="Card subtitle">
+		<b-card class="list">
+			<div v-if="currentList" class="currentList">
+				<b-button  @click="showInputTitle()"
+									v-bind:style="{ display : showButton }"
+									class="input-title"
+									v-b-toggle="currentList._id"
+									variant="primary">{{currentList.name}}</b-button>
+				<b-button @click="deleteList()" class="delete" variant="primary">DELETE LIST</b-button>
+				<b-collapse :id="currentList._id">
+					<b-form-input v-model="currentList.name" placeholder="Enter the list's title"></b-form-input>
+					<b-button @click="updateList()" variant="primary">Update List Title</b-button>
+					<b-button @click="showInputTitle()" v-b-toggle="currentList._id" variant="primary">X</b-button>
+				</b-collapse>
+			</div>
 			<div class="cards">
 				<b-list-group>
 					<draggable v-model="cards" group="cards" @start="drag=true" @end="drag=false" @change="log">
-						<Card v-for="card in cards" :key="card._id" v-bind:card="card"/>
+						<Card class="card" v-for="card in cards" :key="card._id" v-bind:card="card"/>
 					</draggable>
-					<b-button v-b-modal='list._id' @click="showModal = true">Create new card</b-button>
+					<b-button class="new-card-button" v-b-modal='list._id' @click="showModal = true">Create new card</b-button>
 
 					<!-- The modal -->
 					<b-modal :title='list.title' :id='list._id'
@@ -56,6 +69,11 @@ export default {
 				listId: null
 			},
 			showModal: true,
+			currentList: {
+				name: '',
+				_id: null,
+			},
+			showButton: 'inline-block',
 	}),
     components: {
 				Card,
@@ -64,6 +82,8 @@ export default {
     created: async function() {
 				this.getCards();
 				this.newCard.listId = this.list._id;
+				this.currentList._id = this.list._id;
+				this.currentList.name = this.list.name;
 		},
 		methods: {
 			getCards: async function() {
@@ -83,6 +103,10 @@ export default {
 				await api.updateCard(card)
 								.then(data => console.log(data));
 			},
+			updateList: async function() {
+				await api.updateList(this.currentList)
+								.then(data => console.log(data));
+			},
 			log: function(evt) {
 				console.log(evt);
 				if (evt.added !== undefined) {
@@ -94,7 +118,20 @@ export default {
 					console.log(movedCard);
 					this.updateCard(movedCard);
 				}
-			}
+			},
+			deleteList: async function() {
+				await api.deleteList(this.currentList)
+								.then(console.log(this.$parent.$parent.getLists())) //update lists
+								.then(console.log("list succesfully deleted"));
+			},
+			showInputTitle: function() {
+				if(this.showButton === 'inline-block')
+					this.showButton = 'none'
+				else
+					this.showButton = 'inline-block'
+				console.log('se apeleaza');
+				return this.showButton;
+			},
 		},
 		computed: {
 			titleState() {
@@ -112,7 +149,25 @@ export default {
 	display: flex;
 	justify-content: space-between;
 }
+.card {
+	column-gap: 40px;
+}
 .list {
 	width: 300px;
+}
+.new-card-button {
+	width: 250px;
+}
+.input-title {
+	background: transparent;
+	color: black;
+	position: relative;
+	left: -5px;
+	width: 120px;
+}
+.delete {
+	position: relative;
+	right: 2px;
+	width: 127px;
 }
 </style>

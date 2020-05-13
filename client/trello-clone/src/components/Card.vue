@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-button v-b-modal='currentCard._id'>{{currentCard.title}}</b-button>
+		<b-button class="card-button" v-b-modal='currentCard._id'>{{currentCard.title}}</b-button>
 
 			<!-- The modal -->
 			<b-modal :title='currentCard.title' :id='currentCard._id'
@@ -60,3 +60,9 @@ export default {
 	}
 }
 </script>
+
+<style scoped>
+.card-button {
+	width: 250px;
+}
+</style>

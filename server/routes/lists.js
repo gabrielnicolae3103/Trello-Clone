@@ -50,11 +50,12 @@ router.delete('/:id', async (req, res) => {
 router.patch('/:id', async (req, res) => {
     try {
         const listBeforeUpdate = await List.findById(req.params.id);
-
+        const $set = {};
+        if(req.body.name)
+            $set.name = req.body.name;
         const list = await List.findByIdAndUpdate(
             {_id: req.params.id},
-            { $set: {
-                name: req.body.name}},
+            { $set },
             { new: true });
         res.json(list);
     } catch (error) {

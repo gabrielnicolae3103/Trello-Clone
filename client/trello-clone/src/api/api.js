@@ -63,6 +63,36 @@ async function updateCard(card) {
   return response.json();
 }
 
+async function updateList(list) {
+  const response = await fetch(`${API_URL}lists/${list._id}`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+      //TODO add auth
+    },
+    body: JSON.stringify(list)
+  });
+  return response.json();
+}
+
+async function deleteList(list) {
+  const response = await fetch(`${API_URL}lists/${list._id}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+      //TODO add auth
+    },
+    body: JSON.stringify(list)
+  });
+  return response.json();
+}
+
 async function postCard(card) {
   const response = await fetch(`${API_URL}cards/`, {
     method: 'POST',
@@ -79,4 +109,4 @@ async function postCard(card) {
 }
 
 export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId,
-                updateCard, postCard};
+                updateCard, postCard, updateList, deleteList};
