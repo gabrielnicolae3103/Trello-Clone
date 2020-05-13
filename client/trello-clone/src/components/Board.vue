@@ -2,7 +2,9 @@
 	<div>
 		<b-button variant="primary">Primary {{ boardId }}</b-button>
 		<div class="lists">
-			<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
+			<draggable class="lists" v-model="lists" group="lists" @start="drag=true" @end="drag=false" @change="log">
+				<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
+			</draggable>
 		
 			<div v-if="newList" class="new-list">
 				<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
@@ -24,6 +26,7 @@
 
 import api from '../api/api';
 import List from './List';
+import draggable from 'vuedraggable';
 
 export default {
 	name: 'Board',
@@ -60,10 +63,14 @@ export default {
 						this.showButton = 'inline-block'
 					console.log('se apeleaza');
 					return this.showButton;
+				},
+				log: function(evt) {
+					console.log(evt);
 				}
-	},
+		},
 	components: {
-		List
+		List,
+		draggable
 	}
 }
 </script>
