@@ -6,8 +6,8 @@
 		
 			<div v-if="newList" class="new-list">
 				<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
-				<b-collapse id="collapse-1" class="mt-2">
-					<b-card>
+				<b-collapse id="collapse-1">
+					<b-card class="mt-2">
 						<p class="card-text">LIST</p>
 						<b-form-input v-model="newList.name" placeholder="Enter the list's title"></b-form-input>
 						{{newList.name}}
@@ -71,7 +71,7 @@ export default {
 
 <style scoped>
 	.new-list {
-		max-width: 300px;
+		width: 300px;
 	}
 	.new-list-button {
 		background-color: #4CAF50; /* Green */
@@ -80,9 +80,13 @@ export default {
 		width: 300px;
 		text-align: center;
 		text-decoration: none;
-		display: inline-block;
+		display: flex;
 	}
 	.lists {
+		display: flex;
+	}
+	.mt-2 {
+		width: 300px;
 		display: flex;
 	}
 </style>
