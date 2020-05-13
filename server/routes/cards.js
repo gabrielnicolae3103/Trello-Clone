@@ -66,6 +66,8 @@ router.patch('/:id', async (req, res) => {
             $set.title = req.body.title;
         if(req.body.description)
             $set.description = req.body.description;
+        if(req.body.listId)
+            $set.listId = req.body.listId;
         const card = await Card.findByIdAndUpdate(
             {_id: req.params.id},
             { $set },

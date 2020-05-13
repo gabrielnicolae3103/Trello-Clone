@@ -1,43 +1,42 @@
 <template>
     <div>
-			<b-card class="list" :title="list.name" sub-title="Card subtitle">
-				<div class="cards">
-					<b-list-group>
-						<draggable v-model="cards" group="cards" @start="drag=true" @end="drag=false">
-							<Card v-for="card in cards" :key="card._id" v-bind:card="card"/>
-						</draggable>
-						<b-button v-b-modal='list._id' @click="showModal = true">Create new card</b-button>
+		<b-card class="list" :title="list.name" sub-title="Card subtitle">
+			<div class="cards">
+				<b-list-group>
+					<draggable v-model="cards" group="cards" @start="drag=true" @end="drag=false" @change="log">
+						<Card v-for="card in cards" :key="card._id" v-bind:card="card"/>
+					</draggable>
+					<b-button v-b-modal='list._id' @click="showModal = true">Create new card</b-button>
 
-						<!-- The modal -->
-						<b-modal :title='list.title' :id='list._id'
-										:ok-disabled='!titleState || !descriptionState'
-										@ok="createNewCard">
-							<label for="title-input-live">Title:</label>
-							<b-form-input
-								id="title-input-live"
-								v-model="newCard.title"
-								:state="titleState"
-								aria-describedby="input-live-help input-live-feedback"
-								placeholder="Enter title"
-								trim
-							></b-form-input>
-							<label for="description-input-live">Description:</label>
-							<b-form-input
-								id="description-input-live"
-								v-model="newCard.description"
-								:state="descriptionState"
-								aria-describedby="input-live-help input-live-feedback"
-								placeholder="Enter description"
-								trim
-							></b-form-input>
-							<b-form-invalid-feedback id="input-live-feedback">
-								Enter at least 3 letters
-							</b-form-invalid-feedback>
-						</b-modal>
-					</b-list-group>
-				</div>
-				
-			</b-card>
+					<!-- The modal -->
+					<b-modal :title='list.title' :id='list._id'
+									:ok-disabled='!titleState || !descriptionState'
+									@ok="createNewCard">
+						<label for="title-input-live">Title:</label>
+						<b-form-input
+							id="title-input-live"
+							v-model="newCard.title"
+							:state="titleState"
+							aria-describedby="input-live-help input-live-feedback"
+							placeholder="Enter title"
+							trim
+						></b-form-input>
+						<label for="description-input-live">Description:</label>
+						<b-form-input
+							id="description-input-live"
+							v-model="newCard.description"
+							:state="descriptionState"
+							aria-describedby="input-live-help input-live-feedback"
+							placeholder="Enter description"
+							trim
+						></b-form-input>
+						<b-form-invalid-feedback id="input-live-feedback">
+							Enter at least 3 letters
+						</b-form-invalid-feedback>
+					</b-modal>
+				</b-list-group>
+			</div>	
+		</b-card>
     </div>
 </template>
 
@@ -79,6 +78,22 @@ export default {
 				this.newCard.description = '';
 				this.getCards();
 				this.showModal = false;
+			},
+			updateCard: async function(card) {
+				await api.updateCard(card)
+								.then(data => console.log(data));
+			},
+			log: function(evt) {
+				console.log(evt);
+				if (evt.added !== undefined) {
+					// if we moved a card from another list to this list
+					const movedCard = {
+						_id: evt.added.element._id,
+						listId: this.list._id,
+					}
+					console.log(movedCard);
+					this.updateCard(movedCard);
+				}
 			}
 		},
 		computed: {
