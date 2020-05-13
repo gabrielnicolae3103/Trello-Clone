@@ -63,5 +63,20 @@ async function updateCard(card) {
   return response.json();
 }
 
+async function postCard(card) {
+  const response = await fetch(`${API_URL}cards/`, {
+    method: 'POST',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+      //TODO add auth
+    },
+    body: JSON.stringify(card)
+  });
+  return response.json();
+}
+
 export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId,
-                updateCard};
+                updateCard, postCard};
