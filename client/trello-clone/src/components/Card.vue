@@ -1,13 +1,15 @@
 <template>
 	<div>
-		<b-button v-b-modal='card._id'>Show Modal</b-button>
+		<b-button v-b-modal='currentCard._id'>Show Modal</b-button>
 
 			<!-- The modal -->
-			<b-modal :title='card.title' :id='card._id'>
+			<b-modal :title='currentCard.title' :id='currentCard._id'
+							:ok-disabled='!titleState || !descriptionState'
+							@ok="submitCard">
 				<label for="title-input-live">Title:</label>
 				<b-form-input
 					id="title-input-live"
-					v-model="card.title"
+					v-model="currentCard.title"
 					:state="titleState"
 					aria-describedby="input-live-help input-live-feedback"
 					placeholder="Enter title"
@@ -16,7 +18,7 @@
 				<label for="description-input-live">Description:</label>
 				<b-form-input
 					id="description-input-live"
-					v-model="card.description"
+					v-model="currentCard.description"
 					:state="descriptionState"
 					aria-describedby="input-live-help input-live-feedback"
 					placeholder="Enter description"
@@ -30,18 +32,31 @@
 </template>
 
 <script>
+
+import api from '../api/api';
+
 export default {
 	name: 'Card',
 	props: ['card'],
 	data: () => ({
+		currentCard: null,
 	}),
+	created: function() {
+		this.currentCard = this.card;
+	},
 	computed: {
 		titleState() {
-			return this.card.title.length > 2 ? true : false
+			return this.currentCard.title.length > 2 ? true : false
 		},
 		descriptionState() {
-			return this.card.description.length > 2 ? true : false
+			return this.currentCard.description.length > 2 ? true : false
 		}
 	},
+	methods: {
+		submitCard: async function() {
+			await api.updateCard(this.currentCard)
+							.then(data => this.currentCard = data);
+		}
+	}
 }
 </script>

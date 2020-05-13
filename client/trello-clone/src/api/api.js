@@ -48,4 +48,20 @@ async function getCardsByListId(listId) {
 							.then(response => response.json());
 }
 
-export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId};
+async function updateCard(card) {
+  const response = await fetch(`${API_URL}cards/${card._id}`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json'
+      //TODO add auth
+    },
+    body: JSON.stringify(card)
+  });
+  return response.json();
+}
+
+export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId,
+                updateCard};
