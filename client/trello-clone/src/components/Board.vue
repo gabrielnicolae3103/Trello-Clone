@@ -2,7 +2,7 @@
 	<div>
 		<b-button variant="primary">Primary {{ boardId }}</b-button>
 		<div class="lists">
-			<List v-bind:style="{ display : inline }" v-for="list in lists" :key="list._id" v-bind:list="list"></List>
+			<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
 		
 			<div v-if="newList" class="new-list">
 				<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>

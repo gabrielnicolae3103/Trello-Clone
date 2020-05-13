@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-button v-b-modal='currentCard._id'>Show Modal</b-button>
+		<b-button v-b-modal='currentCard._id'>{{currentCard.title}}</b-button>
 
 			<!-- The modal -->
 			<b-modal :title='currentCard.title' :id='currentCard._id'

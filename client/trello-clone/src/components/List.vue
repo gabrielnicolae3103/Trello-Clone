@@ -1,11 +1,17 @@
 <template>
     <div>
 			<b-card class="list" :title="list.name" sub-title="Card subtitle">
+				
 				<div class="cards">
+					
 					<b-list-group>
+					<draggable v-model="cards" group="cards" @start="drag=true" @end="drag=false">
 						<Card v-for="card in cards" :key="card._id" v-bind:card="card"/>
+					</draggable>
 					</b-list-group>
+					
 				</div>
+				
 			</b-card>
     </div>
 </template>
@@ -13,6 +19,7 @@
 <script>
 import Card from './Card';
 import api from '../api/api'
+import draggable from 'vuedraggable'
 
 export default {
     name: 'List',
@@ -21,7 +28,8 @@ export default {
 			cards: [],
 	}),
     components: {
-        Card,
+				Card,
+				draggable
     },
     created: async function() {
 				this.getCards();
