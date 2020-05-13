@@ -1,19 +1,21 @@
 <template>
 	<div>
 		<b-button variant="primary">Primary {{ boardId }}</b-button>
-		<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
+		<div class="lists">
+			<List v-bind:style="{ display : inline }" v-for="list in lists" :key="list._id" v-bind:list="list"></List>
 		
-		<div v-if="newList" class="new-list">
-			<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
-			<b-collapse id="collapse-1" class="mt-2">
-				<b-card>
-					<p class="card-text">LIST</p>
-					<b-form-input v-model="newList.name" placeholder="Enter the list's title"></b-form-input>
-					{{newList.name}}
-					<b-button @click="addAnotherList()" variant="primary">Add List</b-button>
-					<b-button @click="showNewListButton()" v-b-toggle.collapse-1 variant="primary">X</b-button>
-				</b-card>
-			</b-collapse>
+			<div v-if="newList" class="new-list">
+				<b-button  @click="showNewListButton()" v-bind:style="{ display : showButton }" class="new-list-button" v-b-toggle.collapse-1 variant="primary">Add another list</b-button>
+				<b-collapse id="collapse-1" class="mt-2">
+					<b-card>
+						<p class="card-text">LIST</p>
+						<b-form-input v-model="newList.name" placeholder="Enter the list's title"></b-form-input>
+						{{newList.name}}
+						<b-button @click="addAnotherList()" variant="primary">Add List</b-button>
+						<b-button @click="showNewListButton()" v-b-toggle.collapse-1 variant="primary">X</b-button>
+					</b-card>
+				</b-collapse>
+			</div>
 		</div>
 	</div>
 </template>
@@ -79,6 +81,9 @@ export default {
 		text-align: center;
 		text-decoration: none;
 		display: inline-block;
+	}
+	.lists {
+		display: flex;
 	}
 </style>
 

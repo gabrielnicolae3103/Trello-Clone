@@ -1,10 +1,11 @@
 <template>
     <div>
-        <b-card :title="list.name" sub-title="Card subtitle">
-					<b-card-text></b-card-text>
-					<div class="cards">
-						<Card v-for="card in cards" :key="card._id" v-bind:card="card"></Card>
-					</div>
+			<b-card class="list" :title="list.name" sub-title="Card subtitle">
+				<div class="cards">
+					<b-list-group>
+						<Card v-for="card in cards" :key="card._id" v-bind:card="card"/>
+					</b-list-group>
+				</div>
 			</b-card>
     </div>
 </template>
@@ -39,5 +40,8 @@ export default {
 .cards {
 	display: flex;
 	justify-content: space-between;
+}
+.list {
+	width: 300px;
 }
 </style>
