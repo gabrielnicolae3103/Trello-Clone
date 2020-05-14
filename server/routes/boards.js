@@ -27,7 +27,8 @@ router.get('/:id', async (req, res) => {
 // Find a board by username
 router.get('/username/:username', async (req, res) => {
     try {
-        const board = await Board.find({username : req.body.username});
+        const user = await User.findOne({username: req.params.username});
+        const board = await Board.find({members : user._id});
         res.json(board);
     } catch (error) {
         res.status(404).json({message: error});
