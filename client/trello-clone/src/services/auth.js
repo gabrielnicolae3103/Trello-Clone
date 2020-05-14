@@ -1,4 +1,6 @@
 const API_URL = 'http://localhost:3000'
+import jwt_decode from 'jwt-decode';
+
 
 async function login(username, password) {
 		const requestOptions = {
@@ -54,4 +56,14 @@ function handleResponse(response) {
 		});
 }
 
-export default { login, logout, register};
+function loggedInUser() {
+	let user = jwt_decode(localStorage.getItem('jwt'));
+
+	if (user && user.username) {
+		return user.username;
+	} else {
+		return {};
+	}
+}
+
+export default { login, logout, register, loggedInUser};

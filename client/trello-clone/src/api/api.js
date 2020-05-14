@@ -1,12 +1,19 @@
 const API_URL = 'http://localhost:3000/'
 
 async function getBoards() {
-    return await fetch(`${API_URL}boards`)
-                .then(response => response.json());
+    return await fetch(`${API_URL}boards`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
+    }).then(response => response.json());
 }
 
 async function getBoardsByUsername(username) {
-  return await fetch(`${API_URL}boards/username/${username}`)
+  return await fetch(`${API_URL}boards/username/${username}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    }
+  })
               .then(response => response.json());
 }
 
@@ -17,8 +24,8 @@ async function postBoard(data) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(data)
   });
@@ -34,8 +41,8 @@ async function addAnotherList(newList) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(newList)
   });
@@ -44,12 +51,20 @@ async function addAnotherList(newList) {
 
 async function getListsByBoardId(boardId) {
 	console.log(boardId);
-	return await fetch(`${API_URL}lists/board/${boardId}`)
+	return await fetch(`${API_URL}lists/board/${boardId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    }
+  })
 							.then(response => response.json());
 }
 
 async function getCardsByListId(listId) {
-	return await fetch(`${API_URL}cards/list/${listId}`)
+	return await fetch(`${API_URL}cards/list/${listId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    }
+  })
 							.then(response => response.json());
 }
 
@@ -60,8 +75,8 @@ async function updateCard(card) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(card)
   });
@@ -75,8 +90,8 @@ async function updateList(list) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(list)
   });
@@ -90,8 +105,8 @@ async function deleteList(list) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(list)
   });
@@ -105,8 +120,8 @@ async function postCard(card) {
     cache: 'no-cache',
     credentials: 'same-origin',
     headers: {
-      'Content-Type': 'application/json'
-      //TODO add auth
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
     },
     body: JSON.stringify(card)
   });

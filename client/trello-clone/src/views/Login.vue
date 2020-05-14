@@ -30,9 +30,9 @@
 import auth from '../services/auth';
 
 export default {
-    name:'Login',
-    data: () => ({
-        username: '',
+	name:'Login',
+	data: () => ({
+		username: '',
 				password: '',
 				error: false,
 		}),
@@ -49,9 +49,9 @@ export default {
 				this.error = false;
 				await console.log('asda')
 				try {
-				let response = await auth.login(this.username, this.password);
-				await this.$router.push('/boards');
-				return response;
+					let response = await auth.login(this.username, this.password);
+					await this.$router.push('/boards');
+					return response;
 				} catch(err) {
 					this.error = true;
 					console.log('err' + err);
