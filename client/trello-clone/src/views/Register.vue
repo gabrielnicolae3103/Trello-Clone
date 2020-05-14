@@ -2,11 +2,11 @@
 	<div class="login-form">
 		<b-card-group deck>
 				<b-card
-				header="Login"
+				header="Register"
 				header-tag="header"
 				footer-tag="footer"
 				>
-					<b v-show="error" style="color:#bb0000;">Wrong credentials</b>
+					<b v-show="error" style="color:#bb0000;">Username already exists</b>
 					<b-form-input v-model="username"
 												placeholder="Enter the username"
 												:state="usernameState"
@@ -19,7 +19,7 @@
 					<b-form-invalid-feedback id="input-live-feedback">
 						Enter at least 1 letter
 					</b-form-invalid-feedback>
-					<b-button @click="login()" variant="primary">Login</b-button>
+					<b-button @click="register()" variant="primary">Register</b-button>
 				</b-card>
 		</b-card-group>
 	</div>
@@ -29,9 +29,9 @@
 import auth from '../services/auth';
 
 export default {
-    name:'Login',
-    data: () => ({
-        username: '',
+		name:'Register',
+		data: () => ({
+				username: '',
 				password: '',
 				error: false,
 		}),
@@ -44,11 +44,11 @@ export default {
 			}
 		},
 		methods: {
-			login: async function() {
+			register: async function() {
 				this.error = false;
 				try {
-					let response = await auth.login(this.username, this.password);
-					this.$router.push('/boards');
+					let response = await auth.register(this.username, this.password);
+					this.$router.push('/login');
 					return response;
 				} catch(err) {
 					this.error = true;

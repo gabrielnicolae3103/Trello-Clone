@@ -19,6 +19,18 @@ async function login(username, password) {
 				});  
 }
 
+async function register(username, password) {
+	const requestOptions = {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username, password })
+	};
+
+	return await fetch(`${API_URL}/users`, requestOptions)
+			.then(handleResponse)
+			.then(user => console.log(user));  
+}
+
 function logout() {
 	localStorage.removeItem('user');
 }
@@ -41,4 +53,4 @@ function handleResponse(response) {
 		});
 }
 
-export default { login, logout};
+export default { login, logout, register};

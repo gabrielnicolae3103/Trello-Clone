@@ -7,6 +7,7 @@ import "bootstrap-vue/dist/bootstrap-vue.css"
 import Boards from './views/Boards.vue'
 import Board from './components/Board.vue'
 import Login from './views/Login.vue'
+import Register from './views/Register.vue'
 
 Vue.use(VueRouter);
 Vue.use(BootstrapVue)
@@ -15,7 +16,8 @@ Vue.config.productionTip = false
 const routes = [
   {path: '/boards', component: Boards},
   {path: '/b/:id', component: Board},
-  {path: '/login', component: Login}
+  {path: '/login', component: Login},
+  {path: '/register', component: Register}
 ];
 
 const router = new VueRouter({
