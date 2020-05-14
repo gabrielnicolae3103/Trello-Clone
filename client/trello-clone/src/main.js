@@ -17,13 +17,26 @@ const routes = [
   {path: '/boards', component: Boards},
   {path: '/b/:id', component: Board},
   {path: '/login', component: Login},
-  {path: '/register', component: Register}
+  {path: '/register', component: Register},
 ];
 
 const router = new VueRouter({
   routes: routes,
   mode: 'history'
 });
+
+router.beforeEach((to, from, next) => {
+  // redirect to login page if not logged in and trying to access a restricted page
+  const publicPages = ['/login', '/register'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('jwt');
+
+  if (authRequired && !loggedIn) {
+    return next('/login');
+  }
+
+  next();
+})
 
 new Vue({
   render: h => h(App),

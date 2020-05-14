@@ -20,6 +20,7 @@
 						Enter at least 1 letter
 					</b-form-invalid-feedback>
 					<b-button @click="register()" variant="primary">Register</b-button>
+					<b-button variant="link" href="/login">Go Back To Login</b-button>
 				</b-card>
 		</b-card-group>
 	</div>
@@ -48,7 +49,7 @@ export default {
 				this.error = false;
 				try {
 					let response = await auth.register(this.username, this.password);
-					this.$router.push('/login');
+					this.$router.push(`/login`);
 					return response;
 				} catch(err) {
 					this.error = true;
