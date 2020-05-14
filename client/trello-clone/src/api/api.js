@@ -5,6 +5,11 @@ async function getBoards() {
                 .then(response => response.json());
 }
 
+async function getBoardsByUsername(username) {
+  return await fetch(`${API_URL}boards/username/${username}`)
+              .then(response => response.json());
+}
+
 async function postBoard(data) {
   const response = await fetch(`${API_URL}boards`, {
     method: 'POST',
@@ -109,4 +114,4 @@ async function postCard(card) {
 }
 
 export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId,
-                updateCard, postCard, updateList, deleteList};
+                updateCard, postCard, updateList, deleteList, getBoardsByUsername};

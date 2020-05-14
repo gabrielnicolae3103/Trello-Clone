@@ -13,6 +13,7 @@
 <script>
 
 import api from '../api/api';
+import jwt_decode from 'jwt-decode';
 
 export default {
 	name: 'Boards',
@@ -25,13 +26,16 @@ export default {
 			//TODO get current logged user and set it as member
 		},
 		showModal: true,
+		user: '',
 	}),
 	created: function() {
+		this.extractLoggedInUser();
 		this.getBoards();
 	},
 	methods: {
 		getBoards: async function() {
-			await api.getBoards().then(data => this.boards = data);
+			await api.getBoardsByUsername(this.user)
+					.then(data => this.boards = data);
 			console.log(this.boards);
 		},
 		goToBoard: function(board) {
@@ -44,6 +48,9 @@ export default {
 			this.newBoard = {};
 			this.getBoards();
 			this.showModal = false;
+		},
+		extractLoggedInUser: function() {
+			this.user = jwt_decode(localStorage.getItem('jwt')).username;
 		}
 	}
 }

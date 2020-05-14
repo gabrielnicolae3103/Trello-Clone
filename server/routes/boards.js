@@ -24,6 +24,16 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+// Find a board by username
+router.get('/username/:username', async (req, res) => {
+    try {
+        const board = await Board.find({username : req.body.username});
+        res.json(board);
+    } catch (error) {
+        res.status(404).json({message: error});
+    }
+});
+
 // Post a new board
 router.post('/', async (req, res) => {
     try {
