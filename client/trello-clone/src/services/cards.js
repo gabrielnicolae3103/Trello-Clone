@@ -41,8 +41,22 @@ async function postCard(card) {
   return response.json();
 }
 
+async function deleteCard(cardId) {
+  const response = await fetch(`${API_URL}cards/${cardId}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    },
+  });
+  return response.json();
+}
+
 export default {
   getCardsByListId,
   updateCard,
-  postCard
+  postCard,
+  deleteCard
 };

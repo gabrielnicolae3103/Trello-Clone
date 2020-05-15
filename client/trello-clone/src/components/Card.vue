@@ -27,6 +27,7 @@
 				<b-form-invalid-feedback id="input-live-feedback">
 					Enter at least 3 letters
 				</b-form-invalid-feedback>
+				<b-button @click="deleteCard()" variant="primary">Delete</b-button>
 			</b-modal>
 	</div>
 </template>
@@ -56,6 +57,13 @@ export default {
 		submitCard: async function() {
 			await cards_service.updateCard(this.currentCard)
 							.then(data => this.currentCard = data);
+		},
+		deleteCard: async function() {
+			await cards_service.deleteCard(this.currentCard._id);
+			//hide the modal
+			this.$bvModal.hide(this.currentCard._id);
+			//update list of cards
+			this.$parent.$parent.getCards();
 		}
 	}
 }
