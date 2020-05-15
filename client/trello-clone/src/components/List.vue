@@ -116,6 +116,7 @@ export default {
 			},
 			deleteList: async function() {
 				await lists_service.deleteList(this.currentList);
+				this.$parent.$parent.getLists();
 			},
 			showInputTitle: function() {
 				if(this.showButton === 'inline-block')
