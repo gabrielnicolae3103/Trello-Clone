@@ -33,7 +33,7 @@
 
 <script>
 
-import api from '../api/api';
+import cards_service from '../services/cards';
 
 export default {
 	name: 'Card',
@@ -54,7 +54,7 @@ export default {
 	},
 	methods: {
 		submitCard: async function() {
-			await api.updateCard(this.currentCard)
+			await cards_service.updateCard(this.currentCard)
 							.then(data => this.currentCard = data);
 		}
 	}

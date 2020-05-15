@@ -17,7 +17,6 @@ async function login(username, password) {
 								// store user details and jwt token in local storage to keep user logged in between page refreshes
 								localStorage.setItem('jwt', user.accessToken);
 						}
-						console.log('iesim din login')
 						return user;
 				});  
 }
@@ -29,8 +28,7 @@ async function register(username, password) {
 			body: JSON.stringify({ username, password })
 	};
 
-	return await fetch(`${API_URL}/users`, requestOptions)
-			.then(user => console.log(user));  
+	return await fetch(`${API_URL}/users`, requestOptions); 
 }
 
 function logout() {
@@ -48,10 +46,8 @@ function handleResponse(response) {
 						}
 
 						const error = (data && data.message) || response.statusText;
-						console.log('promise');
 						return Promise.reject(error);
 				}
-				console.log('data');
 				return data;
 		});
 }

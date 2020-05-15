@@ -60,8 +60,9 @@
 
 <script>
 
-import api from '../api/api';
-import List from './List';
+import lists_service from '../services/lists';
+import boards_service from '../services/boards';
+import List from '../components/List';
 import draggable from 'vuedraggable';
 
 export default {
@@ -93,13 +94,11 @@ export default {
 	},
 	methods: {
         getLists: async function() {
-            await api.getListsByBoardId(this.boardId)
-                .then(data => this.lists = data)
-                .then(() => console.log(JSON.parse(JSON.stringify(this.lists))));
+            await lists_service.getListsByBoardId(this.boardId)
+                .then(data => this.lists = data);
 				},
 				addAnotherList: async function() {
-					await api.addAnotherList(this.newList)
-										.then(data => console.log(data))
+					await lists_service.addAnotherList(this.newList)
 										.then(this.getLists); //refresh lists
 					this.newList.name = '';
 				},
@@ -108,25 +107,23 @@ export default {
 						this.showButton = 'none'
 					else
 						this.showButton = 'inline-block'
-					console.log('se apeleaza');
 					return this.showButton;
 				},
 				log: function(evt) {
 					console.log(evt);
 				},
 				getCurrentBoard: async function() {
-					await api.getBoardById(this.boardId)
+					await boards_service.getBoardById(this.boardId)
 								.then(data => this.currentBoard = data)
-								.then(console.log(this.currentBoard));
 				},
 				changeBoardName: async function() {
-					return await api.updateBoard({
+					return await boards_service.updateBoard({
 						name: this.currentBoard.name,
 						_id: this.boardId})
 						.then(this.getCurrentBoard);
 				},
 				deleteBoard: async function() {
-					let response = await api.deleteBoard(this.boardId)
+					let response = await boards_service.deleteBoard(this.boardId)
 					this.$router.push("/boards");
 					return response;
 				}

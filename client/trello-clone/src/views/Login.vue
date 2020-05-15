@@ -47,14 +47,12 @@ export default {
 		methods: {
 			login: async function() {
 				this.error = false;
-				await console.log('asda')
 				try {
 					let response = await auth.login(this.username, this.password);
 					await this.$router.push('/boards');
 					return response;
 				} catch(err) {
 					this.error = true;
-					console.log('err' + err);
 				}
 			}
 		}

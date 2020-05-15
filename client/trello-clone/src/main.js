@@ -5,7 +5,7 @@ import BootstrapVue from 'bootstrap-vue'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-vue/dist/bootstrap-vue.css"
 import Boards from './views/Boards.vue'
-import Board from './components/Board.vue'
+import Board from './views/Board.vue'
 import Login from './views/Login.vue'
 import Register from './views/Register.vue'
 

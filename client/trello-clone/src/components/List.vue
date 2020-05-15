@@ -55,8 +55,9 @@
 
 <script>
 import Card from './Card';
-import api from '../api/api'
-import draggable from 'vuedraggable'
+import lists_service from '../services/lists';
+import cards_service from '../services/cards';
+import draggable from 'vuedraggable';
 
 export default {
     name: 'List',
@@ -87,49 +88,40 @@ export default {
 		},
 		methods: {
 			getCards: async function() {
-				await api.getCardsByListId(this.list._id)
-					.then(data => this.cards = data)
-					.then(() => console.log(JSON.parse(JSON.stringify(this.cards))));
+				await cards_service.getCardsByListId(this.list._id)
+					.then(data => this.cards = data);
 			},
 			createNewCard: async function() {
-				await api.postCard(this.newCard)
-						.then(data => console.log(data));
+				await cards_service.postCard(this.newCard);
 				this.newCard.title = '';
 				this.newCard.description = '';
 				this.getCards();
 				this.showModal = false;
 			},
 			updateCard: async function(card) {
-				await api.updateCard(card)
-								.then(data => console.log(data));
+				await cards_service.updateCard(card)
 			},
 			updateList: async function() {
-				await api.updateList(this.currentList)
-								.then(data => console.log(data));
+				await lists_service.updateList(this.currentList)
 			},
 			log: function(evt) {
-				console.log(evt);
 				if (evt.added !== undefined) {
 					// if we moved a card from another list to this list
 					const movedCard = {
 						_id: evt.added.element._id,
 						listId: this.list._id,
 					}
-					console.log(movedCard);
 					this.updateCard(movedCard);
 				}
 			},
 			deleteList: async function() {
-				await api.deleteList(this.currentList)
-								.then(console.log(this.$parent.$parent.getLists())) //update lists
-								.then(console.log("list succesfully deleted"));
+				await lists_service.deleteList(this.currentList);
 			},
 			showInputTitle: function() {
 				if(this.showButton === 'inline-block')
 					this.showButton = 'none'
 				else
 					this.showButton = 'inline-block'
-				console.log('se apeleaza');
 				return this.showButton;
 			},
 		},
