@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<b-button variant="primary">Primary {{ boardId }}</b-button>
 		<div class="lists">
 			<draggable class="lists" v-model="lists" group="lists" @start="drag=true" @end="drag=false" @change="log">
 				<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
