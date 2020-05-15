@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div>
-      <b-navbar fixed="top" toggleable="lg" type="dark" variant="info">
+      <b-navbar fixed="top" toggleable="lg" type="dark" variant="info" v-show="true">
         <b-navbar-nav>
           <b-nav-item href="/boards">Boards</b-nav-item>
         </b-navbar-nav>

@@ -17,6 +17,15 @@ async function getBoardsByUsername(username) {
               .then(response => response.json());
 }
 
+async function getBoardById(boardId) {
+  return await fetch(`${API_URL}boards/${boardId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    }
+  })
+              .then(response => response.json());
+}
+
 async function postBoard(data) {
   const response = await fetch(`${API_URL}boards`, {
     method: 'POST',
@@ -83,6 +92,34 @@ async function updateCard(card) {
   return response.json();
 }
 
+async function updateBoard(card) {
+  const response = await fetch(`${API_URL}boards/${card._id}`, {
+    method: 'PATCH',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    },
+    body: JSON.stringify(card)
+  });
+  return response.json();
+}
+
+async function deleteBoard(boardId) {
+  const response = await fetch(`${API_URL}boards/${boardId}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    },
+  });
+  return response.json();
+}
+
 async function updateList(list) {
   const response = await fetch(`${API_URL}lists/${list._id}`, {
     method: 'PATCH',
@@ -129,4 +166,5 @@ async function postCard(card) {
 }
 
 export default {getBoards, postBoard, getListsByBoardId, addAnotherList, getCardsByListId,
-                updateCard, postCard, updateList, deleteList, getBoardsByUsername};
+                updateCard, postCard, updateList, deleteList, getBoardsByUsername, getBoardById,
+                updateBoard, deleteBoard};

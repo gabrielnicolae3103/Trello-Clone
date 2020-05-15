@@ -1,5 +1,43 @@
 <template>
 	<div>
+		<div>
+      <b-navbar class="board-nav-bar" toggleable="sm" type="dark" variant="primary">
+        <b-navbar-nav>
+					<!-- <b-navbar-item input class="transparent-input"
+												:v-model="currentBoard.name"
+												placeholder="Enter Board Name"></b-navbar-item> -->
+					<b-navbar-brand>{{currentBoard.name}}</b-navbar-brand>
+					<b-navbar-nav class="ml-auto">
+						<div>
+							<b-button class="edit-button" v-b-modal='boardId'>Edit</b-button>
+							<b-button @click="deleteBoard()">Delete</b-button>
+								<!-- The modal -->
+								<b-modal :title='currentBoard.name' :id='boardId'
+												:ok-disabled='!nameState'
+												@ok="changeBoardName">
+									<label for="name-input-live">Name:</label>
+									<b-form-input
+										id="name-input-live"
+										v-model="currentBoard.name"
+										:state="nameState"
+										aria-describedby="input-live-help input-live-feedback"
+										placeholder="Enter name"
+										trim
+									></b-form-input>
+									<b-form-invalid-feedback id="input-live-feedback">
+										Enter at least 3 letters
+									</b-form-invalid-feedback>
+								</b-modal>
+						</div>
+					</b-navbar-nav>
+        </b-navbar-nav>
+				
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
 		<div class="lists">
 			<draggable class="lists" v-model="lists" group="lists" @start="drag=true" @end="drag=false" @change="log">
 				<List v-for="list in lists" :key="list._id" v-bind:list="list"></List>
@@ -35,12 +73,23 @@ export default {
 			name: '',
 			boardId: 0
 		},
+		currentBoard: {
+			_id: null,
+			name: '',
+			members: []
+		},
 		showButton: 'inline-block',
 	}),
+	computed: {
+		nameState() {
+			return this.currentBoard.name.length > 2 ? true : false
+		}
+	},
 	created: async function() {
 				this.boardId = this.$route.params.id;
 				this.newList.boardId = this.boardId;
-        this.getLists();
+				this.getLists();
+				this.getCurrentBoard();
 	},
 	methods: {
         getLists: async function() {
@@ -64,6 +113,22 @@ export default {
 				},
 				log: function(evt) {
 					console.log(evt);
+				},
+				getCurrentBoard: async function() {
+					await api.getBoardById(this.boardId)
+								.then(data => this.currentBoard = data)
+								.then(console.log(this.currentBoard));
+				},
+				changeBoardName: async function() {
+					return await api.updateBoard({
+						name: this.currentBoard.name,
+						_id: this.boardId})
+						.then(this.getCurrentBoard);
+				},
+				deleteBoard: async function() {
+					let response = await api.deleteBoard(this.boardId)
+					this.$router.push("/boards");
+					return response;
 				}
 		},
 	components: {
@@ -93,6 +158,13 @@ export default {
 	.mt-2 {
 		width: 300px;
 		display: flex;
+	}
+	.board-nav-bar {
+		height: 50px;
+	}
+	.transparent-input {
+		background: transparent;
+		border: none;
 	}
 </style>
 
